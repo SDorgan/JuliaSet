@@ -195,7 +195,7 @@ void findInExistingArguments(char *pArguments[], int *currentIndex, int argument
                     /* Found existing argument */
                     if (*currentIndex == argumentsQuantity) {
                         /* Last argument and couldn't find value */
-                        sprintf(errorMessage->characters, "Missing value for argument %s", aux->longName);
+                        sprintf(errorMessage->characters, "Missing value for argument %s\n", aux->longName);
                     } else {
                         /* Get value for parameter */
                         parseString(pArguments[++(*currentIndex)], argument);
@@ -209,7 +209,7 @@ void findInExistingArguments(char *pArguments[], int *currentIndex, int argument
     }
     if (argumentFound == FALSE) {
         *parsedSuccesfully = FALSE;
-        sprintf(errorMessage->characters, "Argument %s is not supported by the program.", argument->characters);
+        sprintf(errorMessage->characters, "Argument %s is not supported by the program.\n", argument->characters);
     }
     freeString(argument);
 }

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+echo "====================== Corriendo prueba 1 ======================"
+
+./tp0
+
+echo "====================== Corriendo prueba 2 ======================"
+
+./tp0 -r 1920x1080 -o Prueba2a.pgm
+./tp0 -c -1+1i -o Prueba2b.pgm
+./tp0 -w 0.5 -o Prueba2c.pgm
+./tp0 -H 0.5 -o Prueba2d.pgm
+./tp0 -s -0.75+0.18i -o Prueba2e.pgm
+./tp0 -o Prueba2f.pgm
+
+echo "====================== Corriendo prueba 3 ======================"
+
+./tp0 -r 1920x1080 -w 0.05 -H 0.05 -s -0.74+0.175i -o Prueba3.pgm
+
+echo "====================== Corriendo prueba 4 ======================"
+
+./tp0 -r 5500x2900 -o Prueba4a.pgm
+./tp0 -r 1x0.5 -o Prueba4b.pgm
+
+./tp0 -r 600-500 -o Prueba4c.pgm
+./tp0 -s 4 -o Prueba4d.pgm
+./tp0 -w 4i -o Prueba4e.pgm

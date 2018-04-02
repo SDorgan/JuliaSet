@@ -22,12 +22,12 @@ void validateResolutionParse(CustomString *pStr, str2int_errno wPixelsError, str
     if (*success == TRUE) {
         *success = FALSE;
         if ((wPixelsError == STR2INT_INCONVERTIBLE) || (hPixelsError == STR2INT_INCONVERTIBLE)) {
-            sprintf(errorMessage->characters, "The %s value can't be parsed as a resolution value.", pStr->characters);
+            sprintf(errorMessage->characters, "The %s value can't be parsed as a resolution value.\n", pStr->characters);
         } else if ((wPixelsError == STR2INT_OVERFLOW) || (hPixelsError == STR2INT_OVERFLOW)) {
-            sprintf(errorMessage->characters, "The %s value exceeds the maximum of %dx%d.", pStr->characters,
+            sprintf(errorMessage->characters, "The %s value exceeds the maximum of %dx%d.\n", pStr->characters,
                     MAX_RESOLUTION_WIDTH, MAX_RESOLUTION_HEIGHT);
         } else if ((wPixelsError == STR2INT_UNDERFLOW) || (hPixelsError == STR2INT_UNDERFLOW)) {
-            sprintf(errorMessage->characters, "The %s value falls behind the minimum of %dx%d.", pStr->characters,
+            sprintf(errorMessage->characters, "The %s value falls behind the minimum of %dx%d.\n", pStr->characters,
                     MIN_RESOLUTION_WIDTH, MIN_RESOLUTION_HEIGHT);
         } else {
             *success = TRUE;
@@ -39,10 +39,10 @@ void validateResolutionValues(int wPixelsQuantity, int hPixelsQuantity, int *suc
     if (*success == TRUE) {
         *success = FALSE;
         if ((wPixelsQuantity > MAX_RESOLUTION_WIDTH) || (hPixelsQuantity > MAX_RESOLUTION_HEIGHT)) {
-            sprintf(errorMessage->characters, "The %dx%d resolution exceeds the maximum of %dx%d.", wPixelsQuantity,
+            sprintf(errorMessage->characters, "The %dx%d resolution exceeds the maximum of %dx%d.\n", wPixelsQuantity,
                     hPixelsQuantity, MAX_RESOLUTION_WIDTH, MAX_RESOLUTION_HEIGHT);
         } else if ((wPixelsQuantity < MIN_RESOLUTION_WIDTH) || (hPixelsQuantity < MIN_RESOLUTION_HEIGHT)) {
-            sprintf(errorMessage->characters, "The  %dx%d value falls behind the minimum of %dx%d.", wPixelsQuantity,
+            sprintf(errorMessage->characters, "The  %dx%d value falls behind the minimum of %dx%d.\n", wPixelsQuantity,
                     hPixelsQuantity, MIN_RESOLUTION_WIDTH, MIN_RESOLUTION_HEIGHT);
         } else {
             *success = TRUE;
@@ -61,7 +61,7 @@ void parseResolution(CustomString *pStr, void *res, int *success, CustomString *
 
     switch (result) {
         case STR_DIVIDE_INVALID: {
-            sprintf(errorMessage->characters, "The %s value can't be parsed as a resolution value.", pStr->characters);
+            sprintf(errorMessage->characters, "The %s value can't be parsed as a resolution value.\n", pStr->characters);
             *success = FALSE;
             break;
         }
@@ -77,7 +77,7 @@ void parseResolution(CustomString *pStr, void *res, int *success, CustomString *
             break;
         }
         case STR_DIVIDE_ONLY_LEFT: {
-            sprintf(errorMessage->characters, "The %s value can't be parsed as a resolution value.", pStr->characters);
+            sprintf(errorMessage->characters, "The %s value can't be parsed as a resolution value.\n", pStr->characters);
             *success = FALSE;
             break;
         }

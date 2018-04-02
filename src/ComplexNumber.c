@@ -41,11 +41,11 @@ void validateComplexNumberParse(CustomString *pStr, str2complex_errno realError,
     if (*success == TRUE) {
         *success = FALSE;
         if ((realError == STR2COMPLEX_INCONVERTIBLE) || (imaginaryError == STR2COMPLEX_INCONVERTIBLE)) {
-            sprintf(errorMessage->characters, "The %s value can't be converted to complex value.", pStr->characters);
+            sprintf(errorMessage->characters, "The %s value can't be converted to complex value.\n", pStr->characters);
         } else if ((realError == STR2COMPLEX_OVERFLOW) || (imaginaryError == STR2COMPLEX_OVERFLOW)) {
-            sprintf(errorMessage->characters, "The %s value exceeds the maximum supported value.", pStr->characters);
+            sprintf(errorMessage->characters, "The %s value exceeds the maximum supported value.\n", pStr->characters);
         } else if ((realError == STR2COMPLEX_UNDERFLOW) || (imaginaryError == STR2COMPLEX_UNDERFLOW)) {
-            sprintf(errorMessage->characters, "The %s value falls behind the minimum supported value.",
+            sprintf(errorMessage->characters, "The %s value falls behind the minimum supported value.\n",
                     pStr->characters);
         } else {
             *success = TRUE;
@@ -64,7 +64,7 @@ void parseComplex(CustomString *pStr, void *pComplex, int *success, CustomString
     ComplexNumber *complexAux = createComplexNumber(0.0L, 0.0L);
     switch (result) {
         case STR_DIVIDE_INVALID: {
-            sprintf(errorMessage->characters, "The %s value can't be converted to complex value.", pStr->characters);
+            sprintf(errorMessage->characters, "The %s value can't be converted to complex value.\n", pStr->characters);
             *success = FALSE;
             break;
         }

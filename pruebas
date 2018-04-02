@@ -20,8 +20,10 @@ echo "====================== Corriendo prueba 3 ======================"
 echo "====================== Corriendo prueba 4 ======================"
 
 ./tp0 -r 5500x2900 -o Prueba4a.pgm
-./tp0 -r 1x0.5 -o Prueba4b.pgm
+./tp0 -w 3.4e+40F -o Prueba4b.pgm
 
-./tp0 -r 600-500 -o Prueba4c.pgm
-./tp0 -s 4 -o Prueba4d.pgm
-./tp0 -w 4i -o Prueba4e.pgm
+./tp0 -r 1x0.5 -o Prueba4c.pgm
+
+./tp0 -r 600-500 -o Prueba4d.pgm
+./tp0 -s 4F -o Prueba4e.pgm
+./tp0 -w 4i -o Prueba4f.pgm

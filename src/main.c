@@ -77,16 +77,16 @@ void parseDouble(CustomString *pStr, void *result, int *success, CustomString *e
     *success = FALSE;
     switch (str2double((double *) result, pStr->characters)) {
         case STR2DOUBLE_INCONVERTIBLE: {
-            sprintf(errorMessage->characters, "The %s value can't be converted to floating point value.",
+            sprintf(errorMessage->characters, "The %s value can't be converted to floating point value.\n",
                     pStr->characters);
             break;
         }
         case STR2DOUBLE_OVERFLOW: {
-            sprintf(errorMessage->characters, "The %s value exceeds the maximum supported value.", pStr->characters);
+            sprintf(errorMessage->characters, "The %s value exceeds the maximum supported value.\n", pStr->characters);
             break;
         }
         case STR2DOUBLE_UNDERFLOW: {
-            sprintf(errorMessage->characters, "The %s value falls behind the minimum supported value.",
+            sprintf(errorMessage->characters, "The %s value falls behind the minimum supported value.\n",
                     pStr->characters);
             break;
         }
@@ -128,7 +128,7 @@ ComplexNumber *createComplexByAddress(int row, int column) {
 int createFractal(Resolution *pRes) {
     FILE *outputFile;
     if ((outputFile = fopen(output->characters, "w")) == NULL) {
-        fprintf(stderr, "No se pudo crear archivo");
+        fprintf(stderr, "No se pudo crear archivo\n");
         return -1;
     }
     fprintf(outputFile, "%s\n", PGM_FIRST_LINE);

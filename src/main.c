@@ -23,7 +23,6 @@
 #define DEFAULT_RESOLUTION_HEIGHT 480
 #define DEFAULT_WIDTH 2.0F
 #define DEFAULT_HEIGHT 2.0F
-#define DEFAULT_OUTPUT "output.pgm"
 #define DEFAULT_CENTER_X 0L
 #define DEFAULT_CENTER_Y 0L
 
@@ -36,8 +35,8 @@ IntVector *rowAndColumnCenter;
 /**
  * Center position from whom the fractal will be drawed, according to the users input
  */
-long double widthPerPixel;
-long double heightPerPixel;
+double widthPerPixel;
+double heightPerPixel;
 /**
  * Main values used for the algorithm. Replaced by the ones provided by the user
  */
@@ -77,16 +76,16 @@ void parseDouble(CustomString *pStr, void *result, int *success, CustomString *e
     *success = FALSE;
     switch (str2double((double *) result, pStr->characters)) {
         case STR2DOUBLE_INCONVERTIBLE: {
-            sprintf(errorMessage->characters, "The %s value can't be converted to floating point value.\n",
+            sprintf(errorMessage->characters, "The %s value can't be converted to floating point value.",
                     pStr->characters);
             break;
         }
         case STR2DOUBLE_OVERFLOW: {
-            sprintf(errorMessage->characters, "The %s value exceeds the maximum supported value.\n", pStr->characters);
+            sprintf(errorMessage->characters, "The %s value exceeds the maximum supported value.", pStr->characters);
             break;
         }
         case STR2DOUBLE_UNDERFLOW: {
-            sprintf(errorMessage->characters, "The %s value falls behind the minimum supported value.\n",
+            sprintf(errorMessage->characters, "The %s value falls behind the minimum supported value.",
                     pStr->characters);
             break;
         }
@@ -103,7 +102,7 @@ void parseDouble(CustomString *pStr, void *result, int *success, CustomString *e
  * @param column Coordinate where the column to transform is currently located from left to right
  * @return
  */
-long double getXCoordinate(IntVector *center, long double column) {
+double getXCoordinate(IntVector *center, double column) {
     return ((-1) * center->x) + column;
 }
 
@@ -113,27 +112,31 @@ long double getXCoordinate(IntVector *center, long double column) {
  * @param row Coordinate where the row to transform is currently located from left to right
  * @return
  */
-long double getYCoordinate(IntVector *center, long double row) {
+double getYCoordinate(IntVector *center, double row) {
     return center->y - row;
 }
 
 ComplexNumber *createComplexByAddress(int row, int column) {
-    long double real = getXCoordinate(rowAndColumnCenter, column) * widthPerPixel;
-    long double imaginary = getYCoordinate(rowAndColumnCenter, row) * heightPerPixel;
+    double real = getXCoordinate(rowAndColumnCenter, column) * widthPerPixel;
+    double imaginary = getYCoordinate(rowAndColumnCenter, row) * heightPerPixel;
     ComplexNumber *result = createComplexNumber(real, imaginary);
     sumComplex(result, center); /* Move the point according to the user's input */
     return result;
 }
 
 int createFractal(Resolution *pRes) {
-    FILE *outputFile;
-    if ((outputFile = fopen(output->characters, "w")) == NULL) {
-        fprintf(stderr, "No se pudo crear archivo\n");
-        return -1;
+    FILE *destiny;
+    if (strcmp(output->characters, "\0") != 0) {
+        if ((destiny = fopen(output->characters, "w")) == NULL) {
+            fprintf(stderr, "No se pudo crear archivo");
+            return -1;
+        }
+    } else {
+        destiny = stdout;
     }
-    fprintf(outputFile, "%s\n", PGM_FIRST_LINE);
-    fprintf(outputFile, "%d %d\n", pRes->width, pRes->height);
-    fprintf(outputFile, "%d\n", MAX_INTENSITY);
+    fprintf(destiny, "%s\n", PGM_FIRST_LINE);
+    fprintf(destiny, "%d %d\n", pRes->width, pRes->height);
+    fprintf(destiny, "%d\n", MAX_INTENSITY);
 
     /* Iterate per row */
     for (int row = 0; row < pRes->height; row++) {
@@ -149,11 +152,13 @@ int createFractal(Resolution *pRes) {
                 powComplex(complex, 2);
                 sumComplex(complex, seed);
             }
-            fprintf(outputFile, "%d\n", intensity);
+            fprintf(destiny, "%d\n", intensity);
             freeComplex(complex);
         }
     }
-    fclose(outputFile);
+    if (strcmp(output->characters, "\0") != 0) {
+        fclose(destiny);
+    }
     return 0;
 }
 
@@ -195,7 +200,7 @@ void findInExistingArguments(char *pArguments[], int *currentIndex, int argument
                     /* Found existing argument */
                     if (*currentIndex == argumentsQuantity) {
                         /* Last argument and couldn't find value */
-                        sprintf(errorMessage->characters, "Missing value for argument %s\n", aux->longName);
+                        sprintf(errorMessage->characters, "Missing value for argument %s", aux->longName);
                     } else {
                         /* Get value for parameter */
                         parseString(pArguments[++(*currentIndex)], argument);
@@ -209,7 +214,7 @@ void findInExistingArguments(char *pArguments[], int *currentIndex, int argument
     }
     if (argumentFound == FALSE) {
         *parsedSuccesfully = FALSE;
-        sprintf(errorMessage->characters, "Argument %s is not supported by the program.\n", argument->characters);
+        sprintf(errorMessage->characters, "Argument %s is not supported by the program.", argument->characters);
     }
     freeString(argument);
 }
@@ -244,7 +249,6 @@ int detectArguments(int argc, char *argv[]) {
 
 int main(int argc, char *argv[]) {
     output = initializeString(STRING_MAX);
-    parseString(DEFAULT_OUTPUT, output);
     resolution = createResolution(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT);
     width = DEFAULT_WIDTH;
     height = DEFAULT_HEIGHT;

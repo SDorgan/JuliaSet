@@ -1,3 +1,5 @@
 *.pgm
-tp0
+juliaSet
 .DS_Store
+target/*
+*.s

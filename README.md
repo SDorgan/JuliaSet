@@ -5,7 +5,10 @@ CLI Application to generate a PGM file representing a [Julia Set](https://en.wik
 ## Building and Running
 ### Build
 1. Navigate to the base folder
-1. Execute `gcc -Wall -o juliaSet src/*.c lib/*.c -lm`
+1. Execute `make`
+### Create assembly files
+1. Navigate to the base folder
+1. Execute `make assembly`. This will generate the **.s** files
 
 ### Run
 The application must be executed with the following syntax `./juliaSet [-argument] [-value]`
@@ -16,11 +19,11 @@ The application accepts the following set of parameters:
 1. `-s` or `--seed`: sets the `s` value from the holomorphic function, which will be used in the calculation for every of pixel the image. Modifying this value changes radically the resulting image. **-0.726895347709114071439+0.188887129043845954792** is the default seed.
 1. `-w` or `--width`: sets the width of the image to draw. The value is divided in equals parts to the left and the right side of the center. **2** is the default width.
 1. `-H` or `--height`: sets the height of the image to draw. The value is divided in equals parts to the up and the down side of the center. **2** is the default height.
-1. `-o` or `--output`: sets the path of the resulting image. If this parameter is omitted or the value: `-` is passed, the default **output.pgm** file will be created.
+1. `-o` or `--output`: sets the path of the resulting image. If this parameter is omitted or the value `-` is passed, the result will be printed by **stdout**. Otherwise, it will be used as path for the output file.
 
 ### Examples
-1. Generate a PGM file with the default values. The holomorphic function will be evaluated for each point of the complex plane between `-1+i`, `-1-i`, `1+i` and `1-i` and a new file called `output.pgm` will be created:
-   - `./juliaSet`
+1. Generate a PGM file with the default values. The holomorphic function will be evaluated for each point of the complex plane between `-1+i`, `-1-i`, `1+i` and `1-i` and redirect the **stdout** to a new file called `result.pgm` will be created:
+   - `./juliaSet > result.pgm`
 1. Zoom in an specific region centered in `0.282-0.007i`, using a square with a side of `0.005` units: 
    - `./juliaSet -c 0.282-0.007i -w 0.005 -H 0.005 -o zoomIn.pgm`
 
@@ -41,6 +44,10 @@ The program handles a bunch of exceptions that may happen during the parse of th
 Because of the implementation of the arguments parsing, in order to include a new argument to the logic, the following steps must be followed:
  - Create a `parser` function as defined inside cArgument.h` library, with all the neccesary logic to parse the argument, update the result and the success flag, or specify an error message if anything went wrong.
  - Add a new line inside the `storeValidArguments()` function, in order to add a new element to the `SimpleList` instance inside `main.c` file, with the desired values for short description, long description and result element.
+
+### Clean
+1. Navigate to the base folder
+1. Execute `make clean`. This will remove both executables, **.o** and **.s** files.
 
 ## Additional Resources
 - [Fractals](https://en.wikipedia.org/wiki/Fractal)
